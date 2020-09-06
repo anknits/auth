@@ -10,14 +10,14 @@ const signUpValidation = (data) => {
     return schema.validate(data);
 }
 
+// login validation
 const loginValidation = (data) => {
     const schema = Joi.object().keys({
         username: Joi.string().min(6),
         email: Joi.string().email(),
         password: Joi.string().min(8).required()
     })
-    .xor("username", "email");
-
+        .xor("username", "email");
     return schema.validate(data);
 }
 

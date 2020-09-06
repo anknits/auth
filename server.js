@@ -1,9 +1,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-//Import routes
 const authRoute = require('./routes/auth');
-
 
 mongoose.connect(process.env.mongodbConnectionString, {
     useNewUrlParser: true, useUnifiedTopology: true
@@ -13,10 +11,7 @@ mongoose.connect(process.env.mongodbConnectionString, {
     }
 });
 
-
-//Middleware
 app.use(express.json());
-//Route middleware
 app.use('/api', authRoute);
 
-app.listen(process.env.PORT||5000, ()=>{console.log("Server up and running")});
+app.listen(process.env.PORT || 5000, () => { console.log("Server up and running") });

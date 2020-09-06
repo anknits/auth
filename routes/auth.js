@@ -5,11 +5,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 
 router.post("/signup", async (req, res) => {
+
     // validate user input
     const { error } = signUpValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    //check if user exists
+    // check if user exists
     const emailExists = await User.findOne({ email: req.body.email });
     if (emailExists) return res.status(400).send('email already signed up');
     const usernameExists = await User.findOne({ username: req.body.username });
@@ -26,7 +27,7 @@ router.post("/signup", async (req, res) => {
         password: hashedPassword
     });
     try {
-        const savedUser = await user.save();
+        await user.save();
         // create and assign jwt
         const token = jwt.sign({ _id: user._id }, process.env.Token_Secret, { expiresIn: "1d" });
         res.header("auth-token", token).status(200).send("Signup successful");
@@ -38,10 +39,11 @@ router.post("/signup", async (req, res) => {
 
 router.post("/login", async (req, res) => {
 
+    // validate user input
     const { error } = loginValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    //check if user exists
+    // check if user exists
     let user;
     if (req.body.email) {
         user = await User.findOne({ email: req.body.email });

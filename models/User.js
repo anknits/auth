@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
-    username:{
+    username: {
         type: String,
         required: true,
         min: 6
@@ -21,4 +21,4 @@ const userSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("User", userSchema, process.env.collectionName);
